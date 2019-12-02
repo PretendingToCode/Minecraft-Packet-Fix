@@ -1,0 +1,2 @@
+node index.js --dump-all -x keep_alive -x update_time -x block_break_animation -x advancements -x animation -x spawn_entity_living -x playerlist_header -x scoreboard_display_objective -x scoreboard_objective -x entity_update_attributes -x sound_effect -x map_chunk -x teams -x entity_equipment -x scoreboard_score -x world_particles -x entity_velocity -x rel_entity_move -x entity_look -x entity_move_look -x entity_teleport -x player_info -x entity_metadata -x entity_status -x entity_head_rotation localhost 1.12.2
+pause press [enter]
