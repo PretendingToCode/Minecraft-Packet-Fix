@@ -1,4 +1,5 @@
 const mc = require('minecraft-protocol')
+const fs = require('fs')
 
 const states = mc.states
 function printHelpAndExit (exitCode) {
@@ -69,6 +70,51 @@ if (host.indexOf(':') !== -1) {
   host = host.substring(0, host.indexOf(':'))
 }
 
+/*
+Load custom packet data into a version's protocol.json as needed.
+Still an undesireable method of packet creation, but should work regardless of
+Minecraft and minecraft-protocol version (Assuming Mojang never releases a packet with the
+same ID as the custom packets)
+*/
+
+var packetData = require("./node_modules/minecraft-data/minecraft-data/data/pc/" + version + "/protocol.json")
+
+if(!packetData.play.toClient.types.packet_oversized_packet){
+  console.log("\n[*] Could not find custom packets for this version, generating now...")
+
+  packetData.play.toClient.types.packet_oversized_packet = ["container", []]
+
+  packetData.play.toClient.types.packet[1][0].type[1].mappings["0x50"] = "oversized_packet"
+  packetData.play.toClient.types.packet[1][1].type[1].fields["oversized_packet"] = "packet_oversized_packet"
+
+  fs.writeFile("./node_modules/minecraft-data/minecraft-data/data/pc/" + version + "/protocol.json", JSON.stringify(packetData, null, 2), (err) => {
+    if (err) console.error(err)
+    console.log("[*] Done")
+  });
+} else {
+  console.log("\n[*] Custom packets found in protocol.json for this version")
+}
+
+/*
+Load custom compression.js file into module to parse data regardless of minecraft-protocol
+version.
+*/
+
+var decompressorFile = require("./node_modules/minecraft-protocol/src/transforms/compression.js")
+
+if(decompressorFile.supportsOversizedPackets && decompressorFile.supportsOversizedPackets == true){
+  console.log("[*] Compression.js file in module supports oversized packet parsing")
+} else {
+  console.log("[*] Compression.js file in module does not support oversized packet parsing, replacing with new file...")
+
+  fs.copyFile("./assets/compression.js", "./node_modules/minecraft-protocol/src/transforms/compression.js", (err) => {
+    if (err) throw err;
+    
+    console.log('[*] Done. This change requires a restart to take effect.  Killing process...');
+    process.exit(0)
+  });
+}
+
 const srv = mc.createServer({
   'online-mode': false,
   port: 25566,
@@ -92,6 +138,7 @@ srv.on('login', function (client) {
     console.log(err.stack)
     if (!endedTargetClient) { targetClient.end('Error') }
   })
+
   const targetClient = mc.createClient({
     host: host,
     port: port,

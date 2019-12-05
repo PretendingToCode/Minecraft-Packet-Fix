@@ -1,0 +1,42 @@
+{
+  "play": {
+    "toClient": {
+      "types": {
+        "packet_oversized_packet": [
+          "container",
+          [
+          ]
+        ],
+        "packet": [
+          "container",
+          [
+            {
+              "name": "name",
+              "type": [
+                "mapper",
+                {
+                  "type": "varint",
+                  "mappings": {
+                    "0x50": "oversized_packet"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "params",
+              "type": [
+                "switch",
+                {
+                  "compareTo": "name",
+                  "fields": {
+                    "oversized_packet": "packet_oversized_packet"
+                  }
+                }
+              ]
+            }
+          ]
+        ]
+      }
+    }
+  }
+}
