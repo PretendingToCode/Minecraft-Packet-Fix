@@ -24,6 +24,6 @@ Servers with anti-bot plugins will likely flag this program as a bot, and preven
 
 ~~It's important not to update any of the files with the "node_modules" directory.  This only works because of changes made to those core modules.  If you copy the index.js file to your machine, and reinstall minecraft-protocol, this program will not work.~~
 
-Minecraft-protocol can now be installed and updated as needed, but modifications will be made to the module files.  It's advised to only use module files with this project.
+Minecraft-protocol can now be installed and updated as needed, but modifications will be made to the module files.  It's advised that you only use these module files with this project.
 
 This project is built upon [a similar proxy](https://github.com/PrismarineJS/node-minecraft-protocol/tree/master/examples/proxy) that I did not design.
