@@ -11,7 +11,7 @@ This proxy boasts a few neat features
 
 The **oversized packet handler** replaces packets over 2mb in size with empty buffers.  This is because the packet decompressor cannot handle packets over that size.
 
-**Robust connections** is the name I've given to a better error-handling system for Minecraft's network protocol.  Instead of ending a connection when the client recieves a malformed or invalid packet, the client will log the packet in chat and silently ignore it.
+**Robust connections** is the name I've given to a better error handling system for Minecraft's network protocol.  Instead of ending a connection when the client recieves a malformed or invalid packet, the client will log the packet in chat and silently ignore it.
 
 ## Installation and usage
 
