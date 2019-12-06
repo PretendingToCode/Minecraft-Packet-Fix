@@ -21,9 +21,11 @@ After that, just clone this repository, open the run.bat file, and change the se
 
 ## Notes
 
-Servers with anti-bot plugins will likely flag this program as a bot, and prevent you from connecting.  To combat this, I will be releasing a Forge mod later this month that does the same thing as this program.
+~~Servers with anti-bot plugins will likely flag this program as a bot, and prevent you from connecting.  To combat this, I will be releasing a Forge mod later this month that does the same thing as this program.~~
 
 ~~It's important not to update any of the files with the "node_modules" directory.  This only works because of changes made to those core modules.  If you copy the index.js file to your machine, and reinstall minecraft-protocol, this program will not work.~~
+
+Bungeecord was refusing connections because the proxy used the client's preexisting Minecraft session.  A username and password are now required to connect to a server from the proxy (Located in login.json.)  Still working on other forms of proxy detection from servers.
 
 Minecraft-protocol can now be installed and updated as needed, but modifications will be made to the module files.  It's advised that you only use these module files with this project.
 
