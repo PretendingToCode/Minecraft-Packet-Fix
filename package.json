@@ -1,6 +1,6 @@
 {
   "name": "oversized-packet-fix",
-  "version": "0.7.0",
+  "version": "0.9.0",
   "description": "Fix for clientbound Minecraft packets over 2mb in size",
   "main": "index.js",
   "dependencies": {

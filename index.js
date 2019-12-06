@@ -1,6 +1,8 @@
 const mc = require('minecraft-protocol')
 const fs = require('fs')
 
+const login = require('./login.json')
+
 const states = mc.states
 function printHelpAndExit (exitCode) {
   console.log('usage: node proxy.js [<options>...] <target_srv> <version>')
@@ -144,7 +146,7 @@ if(killAfterSetup == true){
 const srv = mc.createServer({
   'online-mode': false,
   port: 25566,
-  motd: "§cChunk ban patch by BadPuns",
+  motd: "§cBetter packet-handling proxy by BadPuns",
   keepAlive: false,
   version: version
 })
@@ -168,7 +170,8 @@ srv.on('login', function (client) {
   const targetClient = mc.createClient({
     host: host,
     port: port,
-    username: client.username,
+    username: login.user,
+    password: login.pass,
     keepAlive: false,
     version: version
   })
