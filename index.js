@@ -77,6 +77,8 @@ Minecraft and minecraft-protocol version (Assuming Mojang never releases a packe
 same ID as the custom packets)
 */
 
+var killAfterSetup = false
+
 var packetData = require("./node_modules/minecraft-data/minecraft-data/data/pc/" + version + "/protocol.json")
 
 if(!packetData.play.toClient.types.packet_oversized_packet){
@@ -109,10 +111,34 @@ if(decompressorFile.supportsOversizedPackets && decompressorFile.supportsOversiz
 
   fs.copyFile("./assets/compression.js", "./node_modules/minecraft-protocol/src/transforms/compression.js", (err) => {
     if (err) throw err;
-    
+
     console.log('[*] Done. This change requires a restart to take effect.  Killing process...');
-    process.exit(0)
+    killAfterSetup = true
   });
+}
+
+/*
+Load custom client.js file into module to stay connected regardless of minecraft-protocol
+version.
+*/
+
+var clientFile = require("./node_modules/minecraft-protocol/src/client.js")
+
+if(clientFile.robustConnections && clientFile.robustConnections == true){
+  console.log("[*] Client.js file in module supports robust connections")
+} else {
+  console.log("[*] Client.js file in module does not support robust connections, replacing with new file...")
+
+  fs.copyFile("./assets/client.js", "./node_modules/minecraft-protocol/src/client.js", (err) => {
+    if (err) throw err;
+
+    console.log('[*] Done. This change requires a restart to take effect.  Killing process...');
+    killAfterSetup = true
+  });
+}
+
+if(killAfterSetup == true){
+  process.kill(0)
 }
 
 const srv = mc.createServer({
@@ -179,6 +205,15 @@ srv.on('login', function (client) {
     var m = {
       translate: 'chat.type.admin',
       "with": ["§c§lPacket Watcher§r", "§7Server attempted to send an excessively large packet§r"]
+    };
+
+    client.write("chat", { message: JSON.stringify(m), position: 0 });
+  })
+
+  targetClient.on('corrupt_packet', function (data) {
+    var m = {
+      translate: 'chat.type.admin',
+      "with": ["§c§lPacket Watcher§r", "§7Server attempted to send a corrupt packet to the client\n§7Field: §c" + data.field + "§r"]
     };
 
     client.write("chat", { message: JSON.stringify(m), position: 0 });
