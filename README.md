@@ -1,16 +1,17 @@
-# Oversized Packet Fix
+# Minecraft Packet Fix
 
-This project is a solution to the "Internal Exception: io.netty.handler.codec.DecoderException: Badly compressed packet" error. Informally known as chunk/book banning.
+This project is a solution to the fragile nature of a Minecraft client's connection to a server.  This was created in an attempt to prevent in-game DoS attacks such as chunk-banning and chat-kicking.
 
-## Explanation
+## Features
 
-For years now, this error has been cropping up in a seemingly random manner.  Back when modding was more popular, someone linked this error to loading chunks with excessive amounts of NBT data. This was usually in the form of infinite chests or something comperable.  At the core of it, that's what causes this error.  Packets being sent to the client with a large amount of NBT data, namely just over 2 mb.
+This proxy boasts a few neat features
 
-It wasn't until more recently that this error was weaponized against players.  People began giving items with large amounts of NBT data to a user, until they were kicked and unable to rejoin.  Some time later, the chunk overloading bug was rediscovered, and used to kick players every time the chunk was loaded.  Both of these methods effectively "banned" a user from a server.
+- Oversized packet handling
+- Robust connections
 
-When a user was kicked for this invalid packet, the message displayed was something along the lines of "Internal Exception: io.netty.handler.codec.DecoderException: Badly compressed packet - size of X is larger than protocol maximum."  Due to mentions of compression, I had a feeling this was an error with the decompression function and not an issue of bandwidth.  After all, 2 mb of data is actually a relatively small size.
+The **oversized packet handler** replaces packets over 2mb in size with empty buffers.  This is because the packet decompressor cannot handle packets over that size.
 
-By patching the decompressor function and having it return an empty buffer for packets over a certain size, the client is not kicked from the server.
+**Robust connections** is the name I've given to a better error-handling system for Minecraft's network protocol.  Instead of ending a connection when the client recieves a malformed or invalid packet, the client will log the packet in chat and silently ignore it.
 
 ## Installation and usage
 
