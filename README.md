@@ -15,6 +15,8 @@ The **oversized packet handler** replaces packets over 2mb in size with empty bu
 
 ## Installation and usage
 
+This program requires you to have [Node JS](https://nodejs.org/en/) installed on your system, and in your environment variables.  There are plenty of tutorials on how to do this for your specific system.
+
 Within your project directory, run ``` npm install minecraft-protocol ``` to install the latest version of minecraft-protocol.
 
 After that, just clone this repository, open the run.bat file, and change the server address and version as needed. Then, run the .bat file.  If it is your first time running the program, the program will kill itself and you'll need to relaunch it.  From there you'll need to connect to **localhost:25566** from either the direct connect tab or from your server menu within your Minecraft application.  If you've followed these steps correctly, you should be forwarded on to the server you entered in the run.bat file.
