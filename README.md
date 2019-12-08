@@ -32,3 +32,8 @@ Bungeecord was refusing connections because the proxy used the client's preexist
 Minecraft-protocol can now be installed and updated as needed, but modifications will be made to the module files.  It's advised that you only use these module files with this project.
 
 This project is built upon [a similar proxy](https://github.com/PrismarineJS/node-minecraft-protocol/tree/master/examples/proxy) that I did not design.
+
+## Issues
+
+- [] Bungeecord servers still kick players for malformed packets due to a server-side exception.  Spigot logs error, but doesn't throw an exception
+- [] Bungeecord servers require proxy to authenticate with Mojang to connect.  Solved, but not fond of using login credentials to auth
