@@ -35,5 +35,5 @@ This project is built upon [a similar proxy](https://github.com/PrismarineJS/nod
 
 ## Issues
 
-- [] Bungeecord servers still kick players for malformed packets due to a server-side exception.  Spigot logs error, but doesn't throw an exception
-- [] Bungeecord servers require proxy to authenticate with Mojang to connect.  Solved, but not fond of using login credentials to auth
+- [ ] Bungeecord servers still kick players for malformed packets due to a server-side exception.  Spigot logs error, but doesn't throw an exception
+- [ ] Bungeecord servers require proxy to authenticate with Mojang to connect.  Solved, but not fond of using login credentials to auth
